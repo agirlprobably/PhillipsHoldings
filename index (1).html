@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Phillips Holdings LLC — Sydorna Phillips, Licensed Real Estate Agent</title>
+<meta name="description" content="Sydorna Phillips — Licensed real estate agent serving buyers and sellers across metro Atlanta. Phillips Holdings LLC.">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&family=Bebas+Neue&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #0D0D0D;
+    --paper: #FFFFFF;
+    --paper-mid: #F4F4F4;
+    --gold: #E8C547;
+    --dark-bg: #0D0D0D;
+    --muted: rgba(13,13,13,0.45);
+    --muted-dark: rgba(245,240,232,0.4);
+    --border-light: rgba(13,13,13,0.08);
+    --border-dark: rgba(245,240,232,0.07);
+  }
+
+  html { scroll-behavior: smooth; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--paper); color: var(--ink); overflow-x: hidden; }
+
+  /* ── NAV ── */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 2rem; height: 56px;
+    background: var(--paper);
+    border-bottom: 0.5px solid var(--border-light);
+  }
+  .nav-logo { font-family: 'Bebas Neue', sans-serif; font-size: 20px; color: var(--ink); letter-spacing: 0.04em; text-decoration: none; }
+  .nav-logo .dot { color: var(--gold); }
+  .nav-links { display: flex; align-items: center; gap: 2rem; }
+  .nav-links a { font-size: 12px; color: var(--muted); text-decoration: none; letter-spacing: 0.06em; text-transform: uppercase; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--ink); }
+  .nav-cta { background: var(--ink); color: var(--paper); font-family: 'DM Sans', sans-serif; font-size: 11px; font-weight: 700; padding: 8px 18px; border-radius: 2px; letter-spacing: 0.08em; text-transform: uppercase; border: none; cursor: pointer; transition: background 0.2s; text-decoration: none; }
+  .nav-cta:hover { background: #222; }
+
+  /* ── LISTINGS BAR ── */
+  .listings-bar { display: flex; align-items: center; background: var(--paper-mid); border-bottom: 0.5px solid var(--border-light); overflow-x: auto; scrollbar-width: none; }
+  .listings-bar::-webkit-scrollbar { display: none; }
+  .lb-label { flex-shrink: 0; font-size: 9px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--paper); background: var(--ink); padding: 0 16px; height: 38px; display: flex; align-items: center; }
+  .lb-item { flex-shrink: 0; display: flex; align-items: center; gap: 8px; padding: 0 18px; height: 38px; border-right: 0.5px solid var(--border-light); cursor: pointer; transition: background 0.15s; }
+  .lb-item:hover { background: rgba(13,13,13,0.04); }
+  .lb-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--ink); flex-shrink: 0; }
+  .lb-dot.pending { background: rgba(13,13,13,0.2); }
+  .lb-price { font-size: 12px; font-weight: 700; color: var(--ink); }
+  .lb-addr { font-size: 11px; color: var(--muted); }
+  .lb-status { font-size: 9px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink); }
+  .lb-status.pend { color: rgba(13,13,13,0.3); }
+
+  /* ── HERO ── */
+  .hero { display: grid; grid-template-columns: 58% 42%; min-height: 520px; border-bottom: 0.5px solid var(--border-light); }
+  .hero-left { padding: 3rem 2.5rem 2.5rem 2rem; display: flex; flex-direction: column; justify-content: space-between; border-right: 0.5px solid var(--border-light); }
+  .hero-headline { font-family: 'Bebas Neue', sans-serif; font-size: 80px; color: var(--ink); line-height: 0.92; letter-spacing: 0.01em; }
+  .hero-headline .gold-block { background: var(--gold); color: var(--ink); padding: 0 10px; display: inline-block; }
+  .hero-foot { display: flex; align-items: flex-end; justify-content: space-between; gap: 1.5rem; margin-top: 2.5rem; }
+  .hero-sub { font-size: 13px; color: var(--muted); line-height: 1.75; max-width: 260px; }
+  .hero-btns { display: flex; flex-direction: column; gap: 8px; flex-shrink: 0; }
+
+  /* ── HERO RIGHT (always dark) ── */
+  .hero-right { background: #0D0D0D; display: flex; flex-direction: column; }
+  .agent-panel { flex: 1; padding: 2rem 1.75rem; display: flex; flex-direction: column; justify-content: flex-end; position: relative; background: #0D0D0D; border-bottom: 0.5px solid rgba(245,240,232,0.07); overflow: hidden; }
+  .agent-bg-num { position: absolute; top: 1rem; right: 1.25rem; font-family: 'Bebas Neue', sans-serif; font-size: 96px; color: rgba(232,197,71,0.06); line-height: 1; user-select: none; }
+  .agent-photo { width: 80px; height: 100px; border-radius: 3px; margin-bottom: 1.25rem; border: 0.5px solid rgba(232,197,71,0.25); overflow: hidden; flex-shrink: 0; }
+  .agent-photo img { width: 100%; height: 100%; object-fit: cover; object-position: top center; display: block; }
+  .agent-name { font-family: 'Bebas Neue', sans-serif; font-size: 22px; color: #FAFAF8; letter-spacing: 0.04em; }
+  .agent-license { font-size: 10px; color: var(--gold); letter-spacing: 0.14em; text-transform: uppercase; margin-top: 4px; }
+  .agent-bio { font-size: 12px; color: rgba(245,240,232,0.35); margin-top: 8px; line-height: 1.65; }
+  .stats-grid { display: grid; grid-template-columns: 1fr 1fr; background: #0D0D0D; }
+  .stat { padding: 1.1rem 1.25rem; border-top: 0.5px solid rgba(245,240,232,0.07); border-right: 0.5px solid rgba(245,240,232,0.07); }
+  .stat:nth-child(2), .stat:nth-child(4) { border-right: none; }
+  .stat-n { font-family: 'Bebas Neue', sans-serif; font-size: 28px; color: var(--gold); letter-spacing: 0.02em; line-height: 1; }
+  .stat-l { font-size: 10px; color: rgba(245,240,232,0.3); text-transform: uppercase; letter-spacing: 0.08em; margin-top: 3px; }
+
+  /* ── BUTTONS ── */
+  .btn-dark { background: var(--ink); color: var(--paper); font-size: 11px; font-weight: 700; padding: 11px 22px; border-radius: 2px; letter-spacing: 0.08em; text-transform: uppercase; border: none; cursor: pointer; white-space: nowrap; transition: background 0.2s; }
+  .btn-dark:hover { background: #222; }
+  .btn-outline-dark { background: transparent; color: var(--muted); font-size: 11px; padding: 11px 22px; border-radius: 2px; border: 0.5px solid rgba(13,13,13,0.2); cursor: pointer; white-space: nowrap; transition: border-color 0.2s, color 0.2s; }
+  .btn-outline-dark:hover { border-color: var(--ink); color: var(--ink); }
+  .btn-dark-solid { background: var(--ink); color: var(--paper); font-size: 11px; font-weight: 700; padding: 13px 28px; border-radius: 2px; letter-spacing: 0.08em; text-transform: uppercase; border: none; cursor: pointer; white-space: nowrap; }
+  .btn-outline-ink { background: transparent; color: var(--ink); font-size: 11px; font-weight: 600; padding: 13px 28px; border-radius: 2px; border: 1px solid rgba(13,13,13,0.3); cursor: pointer; white-space: nowrap; }
+
+  /* ── TICKER ── */
+  .ticker { padding: 0.8rem 2rem; display: flex; gap: 2.5rem; border-bottom: 0.5px solid var(--border-light); overflow: hidden; }
+  .tick-item { font-size: 11px; color: rgba(13,13,13,0.22); white-space: nowrap; letter-spacing: 0.08em; text-transform: uppercase; flex-shrink: 0; }
+  .tick-sep { color: rgba(13,13,13,0.18); }
+
+  /* ── SECTIONS ── */
+  .section-light { background: var(--paper); padding: 5rem 2rem; }
+  .section-mid { background: var(--paper-mid); padding: 5rem 2rem; }
+  .section-dark { background: #0D0D0D; padding: 5rem 2rem; }
+  .section-eyebrow { font-size: 10px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.6rem; }
+  .section-dark .section-eyebrow { color: var(--gold); }
+  .section-h2 { font-family: 'Bebas Neue', sans-serif; font-size: 56px; color: var(--ink); line-height: 0.95; letter-spacing: 0.02em; margin-bottom: 0.5rem; }
+  .section-dark .section-h2 { color: #FAFAF8; }
+  .section-sub { font-size: 14px; color: var(--muted); line-height: 1.75; max-width: 480px; margin-bottom: 3rem; }
+  .section-dark .section-sub { color: rgba(245,240,232,0.4); }
+
+  /* ── LISTINGS ── */
+  .listings-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border-light); border: 0.5px solid var(--border-light); }
+  .listing-card { background: var(--paper); cursor: pointer; transition: background 0.15s; }
+  .listing-card:hover { background: var(--paper-mid); }
+  .listing-img { height: 180px; position: relative; overflow: hidden; border-bottom: 0.5px solid var(--border-light); }
+  .listing-img img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.4s ease; }
+  .listing-card:hover .listing-img img { transform: scale(1.03); }
+  .listing-badge { position: absolute; top: 10px; left: 10px; font-size: 9px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 4px 9px; border-radius: 2px; background: var(--ink); color: var(--paper); }
+  .listing-badge.sale { background: var(--gold); color: var(--ink); }
+  .listing-body { padding: 1.25rem; }
+  .listing-price { font-family: 'Bebas Neue', sans-serif; font-size: 26px; color: var(--ink); letter-spacing: 0.02em; }
+  .listing-addr { font-size: 12px; color: var(--muted); margin-top: 3px; line-height: 1.5; }
+  .listing-meta { display: flex; gap: 10px; margin-top: 10px; }
+  .listing-tag { font-size: 10px; color: rgba(13,13,13,0.5); letter-spacing: 0.06em; }
+  .listing-divider { color: rgba(13,13,13,0.2); }
+  .listings-cta { margin-top: 2.5rem; display: flex; align-items: center; gap: 1rem; }
+
+  /* ── SERVICES ── */
+  .services-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: rgba(245,240,232,0.07); border: 0.5px solid rgba(245,240,232,0.07); margin-top: 3rem; }
+  .service-card { background: #0D0D0D; padding: 2rem; }
+  .service-card.alt { background: #0a0a0a; }
+  .service-num { font-family: 'Bebas Neue', sans-serif; font-size: 13px; color: rgba(232,197,71,0.4); letter-spacing: 0.1em; margin-bottom: 1.5rem; }
+  .service-title { font-family: 'Bebas Neue', sans-serif; font-size: 32px; color: #FAFAF8; letter-spacing: 0.02em; margin-bottom: 0.75rem; line-height: 1; }
+  .service-desc { font-size: 13px; color: rgba(245,240,232,0.4); line-height: 1.7; margin-bottom: 1.5rem; }
+  .service-link { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); text-decoration: none; border-bottom: 0.5px solid rgba(232,197,71,0.3); padding-bottom: 2px; cursor: pointer; }
+
+  /* ── ABOUT ── */
+  .about-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; }
+  .about-photo-wrap { position: relative; }
+  .about-photo { width: 100%; aspect-ratio: 3/4; border-radius: 3px; overflow: hidden; border: 0.5px solid var(--border-light); }
+  .about-photo img { width: 100%; height: 100%; object-fit: cover; object-position: top center; display: block; }
+  .about-tag { position: absolute; bottom: 0; left: 0; background: var(--gold); padding: 10px 18px; border-radius: 0 3px 0 0; }
+  .about-tag-text { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink); }
+  .about-h2 { font-family: 'Bebas Neue', sans-serif; font-size: 52px; color: var(--ink); line-height: 0.95; letter-spacing: 0.02em; margin-bottom: 1.5rem; }
+  .about-body { font-size: 14px; color: var(--muted); line-height: 1.8; margin-bottom: 1rem; }
+  .about-body:last-of-type { margin-bottom: 2rem; }
+
+  /* ── TESTIMONIALS ── */
+  .testimonials-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: rgba(245,240,232,0.07); border: 0.5px solid rgba(245,240,232,0.07); margin-top: 3rem; }
+  .testi-card { background: #111; padding: 2rem; }
+  .testi-card.alt { background: #0a0a0a; }
+  .testi-stars { display: flex; gap: 3px; margin-bottom: 1.25rem; }
+  .star { width: 10px; height: 10px; background: var(--gold); clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%); }
+  .testi-quote { font-size: 14px; color: rgba(245,240,232,0.7); line-height: 1.8; font-style: italic; margin-bottom: 1.5rem; }
+  .testi-author { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gold); }
+  .testi-role { font-size: 11px; color: rgba(245,240,232,0.25); margin-top: 2px; }
+
+  /* ── CTA BAND ── */
+  .cta-band { background: var(--gold); padding: 4.5rem 2rem; display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 3rem; }
+  .cta-h2 { font-family: 'Bebas Neue', sans-serif; font-size: 52px; color: var(--ink); line-height: 0.95; letter-spacing: 0.02em; }
+  .cta-sub { font-size: 13px; color: rgba(13,13,13,0.6); line-height: 1.7; margin-top: 0.75rem; max-width: 480px; }
+  .cta-btns { display: flex; flex-direction: column; gap: 10px; flex-shrink: 0; }
+
+  /* ── FOOTER ── */
+  footer { background: #0D0D0D; padding: 4rem 2rem 0; }
+  .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem; padding-bottom: 3rem; border-bottom: 0.5px solid rgba(245,240,232,0.07); }
+  .footer-logo { font-family: 'Bebas Neue', sans-serif; font-size: 22px; color: #FAFAF8; letter-spacing: 0.04em; margin-bottom: 0.75rem; }
+  .footer-logo .dot { color: var(--gold); }
+  .footer-tagline { font-size: 12px; color: rgba(245,240,232,0.3); line-height: 1.7; max-width: 240px; margin-bottom: 1.5rem; }
+  .footer-col-title { font-size: 10px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold); margin-bottom: 1rem; }
+  .footer-col-item { font-size: 12px; color: rgba(245,240,232,0.35); margin-bottom: 8px; cursor: pointer; transition: color 0.15s; display: block; text-decoration: none; }
+  .footer-col-item:hover { color: rgba(245,240,232,0.7); }
+  .footer-bottom { padding: 1.25rem 0; display: flex; align-items: center; justify-content: space-between; }
+  .footer-copy { font-size: 11px; color: rgba(245,240,232,0.2); }
+  .footer-legal { display: flex; gap: 1.5rem; }
+  .footer-legal a { font-size: 11px; color: rgba(245,240,232,0.2); text-decoration: none; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; }
+    .hero-headline { font-size: 60px; }
+    .hero-right { display: none; }
+    .listings-grid { grid-template-columns: 1fr 1fr; }
+    .services-layout { grid-template-columns: 1fr; }
+    .about-layout { grid-template-columns: 1fr; gap: 2.5rem; }
+    .testimonials-grid { grid-template-columns: 1fr; }
+    .cta-band { grid-template-columns: 1fr; }
+    .footer-grid { grid-template-columns: 1fr 1fr; gap: 2rem; }
+    .nav-links { display: none; }
+  }
+  @media (max-width: 560px) {
+    .listings-grid { grid-template-columns: 1fr; }
+    .hero-headline { font-size: 48px; }
+    .section-h2 { font-size: 40px; }
+    .cta-h2 { font-size: 38px; }
+    .footer-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="home">
+  <a class="nav-logo" href="#home">PHILLIPS<span class="dot">.</span> HOLDINGS</a>
+  <div class="nav-links">
+    <a href="#listings">Listings</a>
+    <a href="#services">Services</a>
+    <a href="#about">About</a>
+    <a href="#testimonials">Reviews</a>
+    <a href="#contact">Contact</a>
+  </div>
+  <a class="nav-cta" href="#contact">Talk to me</a>
+</nav>
+
+<!-- LISTINGS BAR -->
+<div class="listings-bar">
+  <div class="lb-label">Active now</div>
+  <div class="lb-item">
+    <div class="lb-dot"></div>
+    <span class="lb-price">$485K</span>
+    <span class="lb-addr">124 Maple St, Atlanta</span>
+    <span class="lb-status">For sale</span>
+  </div>
+  <div class="lb-item">
+    <div class="lb-dot"></div>
+    <span class="lb-price">$320K</span>
+    <span class="lb-addr">87 Birchwood Ave, Decatur</span>
+    <span class="lb-status">For sale</span>
+  </div>
+  <div class="lb-item">
+    <div class="lb-dot"></div>
+    <span class="lb-price">$610K</span>
+    <span class="lb-addr">9 Crestview Ln, Marietta</span>
+    <span class="lb-status">For sale</span>
+  </div>
+  <div class="lb-item">
+    <div class="lb-dot pending"></div>
+    <span class="lb-price">$398K</span>
+    <span class="lb-addr">55 Holloway Dr, Smyrna</span>
+    <span class="lb-status pend">Pending</span>
+  </div>
+  <div class="lb-item">
+    <div class="lb-dot pending"></div>
+    <span class="lb-price">$275K</span>
+    <span class="lb-addr">12 Oakdale Rd, Morrow</span>
+    <span class="lb-status pend">Pending</span>
+  </div>
+  <div class="lb-item">
+    <div class="lb-dot"></div>
+    <span class="lb-price">$540K</span>
+    <span class="lb-addr">33 Peachtree Blvd, Sandy Springs</span>
+    <span class="lb-status">For sale</span>
+  </div>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <div class="hero-headline">
+      EVERY<br>
+      DOOR<br>
+      OPENS<br>
+      WITH THE<br>
+      <span class="gold-block">RIGHT</span><br>
+      AGENT.
+    </div>
+    <div class="hero-foot">
+      <p class="hero-sub">Whether you're buying your first home or selling to move forward — you deserve an agent who shows up, negotiates hard, and gets the deal done.</p>
+      <div class="hero-btns">
+        <button class="btn-dark" onclick="document.getElementById('listings').scrollIntoView({behavior:'smooth'})">Browse listings</button>
+        <button class="btn-outline-dark" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Let's talk</button>
+      </div>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="agent-panel">
+      <div class="agent-bg-num">01</div>
+      <div class="agent-photo">
+        <img src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=400&q=80" alt="Sydorna Phillips">
+      </div>
+      <div class="agent-name">Sydorna Phillips</div>
+      <div class="agent-license">Phillips Holdings LLC · Licensed Agent</div>
+      <div class="agent-bio">Serving buyers and sellers across metro Atlanta with expertise, honesty, and relentless commitment to your outcome.</div>
+    </div>
+    <div class="stats-grid">
+      <div class="stat"><div class="stat-n">200+</div><div class="stat-l">Homes closed</div></div>
+      <div class="stat"><div class="stat-n">98%</div><div class="stat-l">Satisfaction</div></div>
+      <div class="stat"><div class="stat-n">10yr</div><div class="stat-l">Experience</div></div>
+      <div class="stat"><div class="stat-n">$50M+</div><div class="stat-l">In sales</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker">
+  <span class="tick-item">Buyers</span><span class="tick-sep"> · </span>
+  <span class="tick-item">Sellers</span><span class="tick-sep"> · </span>
+  <span class="tick-item">Relocation</span><span class="tick-sep"> · </span>
+  <span class="tick-item">First-time buyers</span><span class="tick-sep"> · </span>
+  <span class="tick-item">Investment properties</span><span class="tick-sep"> · </span>
+  <span class="tick-item">Metro Atlanta</span><span class="tick-sep"> · </span>
+  <span class="tick-item">New construction</span><span class="tick-sep"> · </span>
+  <span class="tick-item">Licensed & trusted</span>
+</div>
+
+<!-- LISTINGS -->
+<section class="section-light" id="listings">
+  <div class="section-eyebrow">Featured listings</div>
+  <h2 class="section-h2">Homes worth<br>opening the door for.</h2>
+  <p class="section-sub">Hand-selected listings across metro Atlanta. Updated as new properties come to market.</p>
+
+  <div class="listings-grid">
+    <div class="listing-card">
+      <div class="listing-img">
+        <img src="https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=600&q=80" alt="124 Maple Street">
+        <div class="listing-badge sale">For sale</div>
+      </div>
+      <div class="listing-body">
+        <div class="listing-price">$485,000</div>
+        <div class="listing-addr">124 Maple Street, Atlanta, GA 30301</div>
+        <div class="listing-meta">
+          <span class="listing-tag">4 bed</span><span class="listing-divider">·</span>
+          <span class="listing-tag">2 bath</span><span class="listing-divider">·</span>
+          <span class="listing-tag">2,100 sqft</span>
+        </div>
+      </div>
+    </div>
+    <div class="listing-card">
+      <div class="listing-img">
+        <img src="https://images.unsplash.com/photo-1568605114967-8130f3a36994?w=600&q=80" alt="87 Birchwood Avenue">
+        <div class="listing-badge sale">For sale</div>
+      </div>
+      <div class="listing-body">
+        <div class="listing-price">$320,000</div>
+        <div class="listing-addr">87 Birchwood Avenue, Decatur, GA 30030</div>
+        <div class="listing-meta">
+          <span class="listing-tag">3 bed</span><span class="listing-divider">·</span>
+          <span class="listing-tag">2 bath</span><span class="listing-divider">·</span>
+          <span class="listing-tag">1,650 sqft</span>
+        </div>
+      </div>
+    </div>
+    <div class="listing-card">
+      <div class="listing-img">
+        <img src="https://images.unsplash.com/photo-1605276374104-dee2a0ed3cd6?w=600&q=80" alt="9 Crestview Lane">
+        <div class="listing-badge" style="background:#E8C547;color:#0D0D0D;">Hot</div>
+      </div>
+      <div class="listing-body">
+        <div class="listing-price">$610,000</div>
+        <div class="listing-addr">9 Crestview Lane, Marietta, GA 30060</div>
+        <div class="listing-meta">
+          <span class="listing-tag">5 bed</span><span class="listing-divider">·</span>
+          <span class="listing-tag">3 bath</span><span class="listing-divider">·</span>
+          <span class="listing-tag">3,400 sqft</span>
+        </div>
+      </div>
+    </div>
+    <div class="listing-card">
+      <div class="listing-img">
+        <img src="https://images.unsplash.com/photo-1583608205776-bfd35f0d9f83?w=600&q=80" alt="55 Holloway Drive">
+        <div class="listing-badge" style="background:rgba(13,13,13,0.15);color:#0D0D0D;">Pending</div>
+      </div>
+      <div class="listing-body">
+        <div class="listing-price">$398,000</div>
+        <div class="listing-addr">55 Holloway Drive, Smyrna, GA 30080</div>
+        <div class="listing-meta">
+          <span class="listing-tag">3 bed</span><span class="listing-divider">·</span>
+          <span class="listing-tag">2 bath</span><span class="listing-divider">·</span>
+          <span class="listing-tag">1,900 sqft</span>
+        </div>
+      </div>
+    </div>
+    <div class="listing-card">
+      <div class="listing-img">
+        <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80" alt="12 Oakdale Road">
+        <div class="listing-badge sale">For sale</div>
+      </div>
+      <div class="listing-body">
+        <div class="listing-price">$275,000</div>
+        <div class="listing-addr">12 Oakdale Road, Morrow, GA 30260</div>
+        <div class="listing-meta">
+          <span class="listing-tag">3 bed</span><span class="listing-divider">·</span>
+          <span class="listing-tag">1 bath</span><span class="listing-divider">·</span>
+          <span class="listing-tag">1,380 sqft</span>
+        </div>
+      </div>
+    </div>
+    <div class="listing-card">
+      <div class="listing-img">
+        <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=600&q=80" alt="33 Peachtree Blvd">
+        <div class="listing-badge" style="background:#E8C547;color:#0D0D0D;">New</div>
+      </div>
+      <div class="listing-body">
+        <div class="listing-price">$540,000</div>
+        <div class="listing-addr">33 Peachtree Blvd, Sandy Springs, GA 30328</div>
+        <div class="listing-meta">
+          <span class="listing-tag">4 bed</span><span class="listing-divider">·</span>
+          <span class="listing-tag">3 bath</span><span class="listing-divider">·</span>
+          <span class="listing-tag">2,750 sqft</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="listings-cta">
+    <button class="btn-dark">View all listings</button>
+    <span style="font-size: 12px; color: var(--muted);">14 active properties across metro Atlanta</span>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="section-dark" id="services">
+  <div class="section-eyebrow">What I do</div>
+  <h2 class="section-h2">Your guide from<br>search to signed.</h2>
+  <p class="section-sub">Every client gets my full attention — whether you're buying your first home or your fifth investment property.</p>
+  <div class="services-layout">
+    <div class="service-card">
+      <div class="service-num">01</div>
+      <div class="service-title">Buying</div>
+      <div class="service-desc">From your first search to closing day — I find the right home, negotiate hard, and protect your investment every step of the way.</div>
+      <span class="service-link" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Start your search →</span>
+    </div>
+    <div class="service-card alt">
+      <div class="service-num">02</div>
+      <div class="service-title">Selling</div>
+      <div class="service-desc">Strategic pricing, powerful marketing, and expert negotiation to get you top dollar — on your timeline and your terms.</div>
+      <span class="service-link" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Get your home valued →</span>
+    </div>
+    <div class="service-card alt">
+      <div class="service-num">03</div>
+      <div class="service-title">Relocation</div>
+      <div class="service-desc">Moving to Atlanta? I'll help you navigate neighborhoods, schools, commutes, and everything in between — not just the square footage.</div>
+      <span class="service-link" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Let's plan your move →</span>
+    </div>
+    <div class="service-card">
+      <div class="service-num">04</div>
+      <div class="service-title">Investment</div>
+      <div class="service-desc">Whether it's your first rental or you're building a portfolio — I bring market data and honest analysis to every investment decision.</div>
+      <span class="service-link" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Explore opportunities →</span>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="section-mid" id="about">
+  <div class="about-layout">
+    <div class="about-photo-wrap">
+      <div class="about-photo">
+        <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=800&q=80" alt="Sydorna Phillips — Phillips Holdings LLC">
+      </div>
+      <div class="about-tag">
+        <div class="about-tag-text">Sydorna Phillips · Phillips Holdings LLC</div>
+      </div>
+    </div>
+    <div class="about-content">
+      <div class="section-eyebrow">About Sydorna</div>
+      <h2 class="about-h2">BUILT ON<br>TRUST.<br>DRIVEN BY<br>RESULTS.</h2>
+      <p class="about-body">Sydorna Phillips is a licensed real estate agent and the founder of Phillips Holdings LLC — serving buyers and sellers across the USA with the kind of attention and honesty that turns first-time clients into lifelong ones.</p>
+      <p class="about-body">Her approach is straightforward: understand exactly what you need, tell you the truth about the market, and fight for the best possible outcome every single time. No fluff. No runaround. Just results.</p>
+      <button class="btn-dark" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Work with Sydorna</button>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="section-dark" id="testimonials">
+  <div class="section-eyebrow">Client love</div>
+  <h2 class="section-h2">Results that<br>speak louder.</h2>
+  <p class="section-sub">Real words from real clients — buyers and sellers who trusted Sydorna with one of the biggest decisions of their lives.</p>
+  <div class="testimonials-grid">
+    <div class="testi-card">
+      <div class="testi-stars"><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div></div>
+      <div class="testi-quote">"She made the whole process feel effortless. From our first call to closing day, I always felt like I had someone truly in my corner. She fought for every dollar."</div>
+      <div class="testi-author">Marcus T.</div>
+      <div class="testi-role">First-time buyer · Atlanta, GA</div>
+    </div>
+    <div class="testi-card alt">
+      <div class="testi-stars"><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div></div>
+      <div class="testi-quote">"Our home sold in 9 days at above asking price. Her pricing strategy and marketing were exactly what we needed. No stress, no guesswork — just results."</div>
+      <div class="testi-author">Denise & Kevin R.</div>
+      <div class="testi-role">Sellers · Decatur, GA</div>
+    </div>
+    <div class="testi-card alt">
+      <div class="testi-stars"><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div></div>
+      <div class="testi-quote">"We relocated from out of state and she handled everything. She knew every neighborhood, every school zone, every hidden fee. We felt completely taken care of."</div>
+      <div class="testi-author">James & Yvette M.</div>
+      <div class="testi-role">Relocation buyers · Sandy Springs, GA</div>
+    </div>
+    <div class="testi-card">
+      <div class="testi-stars"><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div></div>
+      <div class="testi-quote">"I've worked with three agents before her. None of them came close. She's direct, she's sharp, and she doesn't waste your time. Exactly what I needed."</div>
+      <div class="testi-author">Terrence W.</div>
+      <div class="testi-role">Investment buyer · Marietta, GA</div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT / CTA -->
+<section class="cta-band" id="contact">
+  <div>
+    <h2 class="cta-h2">LET'S OPEN<br>THE RIGHT<br>DOOR — TOGETHER.</h2>
+    <p class="cta-sub">Whether you're buying, selling, or just starting to think about it — reach out. You'll get a straight answer and a clear path forward. No pressure, no runaround.</p>
+    <div style="margin-top: 1.5rem; display: flex; flex-direction: column; gap: 6px;">
+      <div style="font-size: 13px; font-weight: 700; color: #0D0D0D;">+1 (000) 000-0000 &nbsp;·&nbsp; Placeholder — update when ready</div>
+      <div style="font-size: 13px; color: rgba(13,13,13,0.55);">hello@phillipsholdings.com &nbsp;·&nbsp; Placeholder — update when ready</div>
+    </div>
+  </div>
+  <div class="cta-btns">
+    <button class="btn-dark-solid">Schedule a free call</button>
+    <button class="btn-outline-ink" onclick="document.getElementById('listings').scrollIntoView({behavior:'smooth'})">Browse listings</button>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div class="footer-logo">PHILLIPS<span class="dot">.</span> HOLDINGS</div>
+      <div class="footer-tagline">Every door opens with the right agent. Serving buyers and sellers across the USA with expertise and integrity.</div>
+      <div style="font-size: 11px; color: rgba(245,240,232,0.2);">Phillips Holdings LLC · Sydorna Phillips · Licensed Real Estate Agent</div>
+    </div>
+    <div>
+      <div class="footer-col-title">Navigate</div>
+      <a class="footer-col-item" href="#listings">Listings</a>
+      <a class="footer-col-item" href="#services">Services</a>
+      <a class="footer-col-item" href="#about">About</a>
+      <a class="footer-col-item" href="#testimonials">Reviews</a>
+      <a class="footer-col-item" href="#contact">Contact</a>
+    </div>
+    <div>
+      <div class="footer-col-title">Services</div>
+      <span class="footer-col-item">Buying</span>
+      <span class="footer-col-item">Selling</span>
+      <span class="footer-col-item">Relocation</span>
+      <span class="footer-col-item">Investment</span>
+    </div>
+    <div>
+      <div class="footer-col-title">Contact</div>
+      <span class="footer-col-item">+1 (000) 000-0000</span>
+      <span class="footer-col-item">hello@phillipsholdings.com</span>
+      <span class="footer-col-item" style="margin-top: 12px;">Instagram</span>
+      <span class="footer-col-item">Facebook</span>
+      <span class="footer-col-item">LinkedIn</span>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span class="footer-copy">© 2026 Phillips Holdings LLC. All rights reserved.</span>
+    <div class="footer-legal">
+      <a href="#">Privacy policy</a>
+      <a href="#">Terms of use</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
